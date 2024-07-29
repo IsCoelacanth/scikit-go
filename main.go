@@ -21,6 +21,46 @@ func simulateLinearRegression() {
 	fmt.Println("Intercept: ", intercept)
 }
 
+func MultivariateLinearRegression(inputs [][]float64, outputs [][]float64) ([][]float64, error) {
+	// Calculate Inputs Transpose
+	inputsTranspose := Transpose(inputs)
+
+	// Calculate Product of Inputs and Inputs Transpose
+	product, err := Multiply(inputsTranspose, inputs)
+
+	if err != nil {
+		fmt.Printf("Error in Calculating Product of Inputs and Inputs Transpose: %s", err.Error())
+		return [][]float64{}, err
+	}
+
+	// Calculate Inverse of Product
+	inverse, err := Inverse(product)
+
+	if err != nil {
+		fmt.Printf("Error in Calculating Inverse of Product: %s", err.Error())
+		return [][]float64{}, err
+	}
+
+	// Calculate Product of Inputs Transpose and Outputs
+	product_output, err := Multiply(inputsTranspose, outputs)
+
+	if err != nil {
+		fmt.Printf("Error in Calculating Product of Inputs Transpose and Output: %s", err.Error())
+		return [][]float64{}, err
+	}
+
+	// Calculate Coefficients
+	coefficients, err := Multiply(inverse, product_output)
+
+	if err != nil {
+		fmt.Printf("Error in Calculating Coefficients: %s", err.Error())
+		return [][]float64{}, err
+	}
+
+	return coefficients, err
+
+}
+
 // Run Multivariate Linear regression
 func simulateMultivariateLinearRegression() {
 	fmt.Println("Multivariate Linear Regression")
@@ -45,38 +85,9 @@ func simulateMultivariateLinearRegression() {
 		inputs[i][0] = 1
 	}
 
-	// Calculate Inputs Transpose
-	inputsTranspose := Transpose(inputs)
-
-	// Calculate Product of Inputs and Inputs Transpose
-	product, err := Multiply(inputsTranspose, inputs)
+	coefficients, err := MultivariateLinearRegression(inputs, outputs)
 
 	if err != nil {
-		fmt.Printf("Error in Calculating Product of Inputs and Inputs Transpose: %s", err.Error())
-		return
-	}
-
-	// Calculate Inverse of Product
-	inverse, err := Inverse(product)
-
-	if err != nil {
-		fmt.Printf("Error in Calculating Inverse of Product: %s", err.Error())
-		return
-	}
-
-	// Calculate Product of Inputs Transpose and Outputs
-	product_output, err := Multiply(inputsTranspose, outputs)
-
-	if err != nil {
-		fmt.Printf("Error in Calculating Product of Inputs Transpose and Output: %s", err.Error())
-		return
-	}
-
-	// Calculate Coefficients
-	coefficients, err := Multiply(inverse, product_output)
-
-	if err != nil {
-		fmt.Printf("Error in Calculating Coefficients: %s", err.Error())
 		return
 	}
 
