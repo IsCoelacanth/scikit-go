@@ -30,7 +30,7 @@ func createZeroesVec(size int) []float64 {
 	return vec
 }
 
-func LienarRegression(n int, x []float64, y []float64) (float64, float64) {
+func LinearRegression(n int, x []float64, y []float64) (float64, float64) {
 	var xMean float64 = mean(x)
 	var yMean float64 = mean(y)
 
@@ -63,7 +63,7 @@ func main() {
 	}
 	fmt.Println("x = ", x)
 	fmt.Println("y = ", y)
-	var slope, intercept = LienarRegression(n, x, y)
+	var slope, intercept = LinearRegression(n, x, y)
 	fmt.Println("Slope: ", slope)
 	fmt.Println("Intercept: ", intercept)
 }
