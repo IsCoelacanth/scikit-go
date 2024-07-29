@@ -33,22 +33,58 @@ func simulateMultivariateLinearRegression() {
 	fmt.Scanln(&l)
 
 	// Create Ouput Vector
-	var outputs []float64 = CreateRandomVector(l)
+	outputs := make([][]float64, l)
 	for i := range outputs {
-		outputs[i] = outputs[i] * outputs[i]
+		outputs[i] = CreateRandomVector(1)
 	}
 
 	// Create Input Vectors
-	inputs := make([][]float64, n+1)
+	inputs := make([][]float64, l)
 	for i := range inputs {
-		if i == 0 {
-			inputs[i] = CreateOnesVector(l)
-		}
-		inputs[i] = CreateRandomVector(l)
+		inputs[i] = CreateRandomVector(n + 1)
+		inputs[i][0] = 1
+	}
+
+	// Calculate Inputs Transpose
+	inputsTranspose := Transpose(inputs)
+
+	// Calculate Product of Inputs and Inputs Transpose
+	product, err := Multiply(inputsTranspose, inputs)
+
+	if err != nil {
+		fmt.Printf("Error in Calculating Product of Inputs and Inputs Transpose: %s", err.Error())
+		return
+	}
+
+	// Calculate Inverse of Product
+	inverse, err := Inverse(product)
+
+	if err != nil {
+		fmt.Printf("Error in Calculating Inverse of Product: %s", err.Error())
+		return
+	}
+
+	// Calculate Product of Inputs Transpose and Outputs
+	product_output, err := Multiply(inputsTranspose, outputs)
+
+	if err != nil {
+		fmt.Printf("Error in Calculating Product of Inputs Transpose and Output: %s", err.Error())
+		return
+	}
+
+	// Calculate Coefficients
+	coefficients, err := Multiply(inverse, product_output)
+
+	if err != nil {
+		fmt.Printf("Error in Calculating Coefficients: %s", err.Error())
+		return
 	}
 
 	fmt.Printf("Outputs: %v", outputs)
+	fmt.Println()
 	fmt.Printf("Inputs: %v", inputs)
+	fmt.Println()
+	fmt.Printf("Coefficients: %v", coefficients)
 }
 
 func main() {
