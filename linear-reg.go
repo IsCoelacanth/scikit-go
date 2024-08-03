@@ -50,7 +50,7 @@ func LienarRegression(n int, x []float64, y []float64) (float64, float64) {
 	return theta1, theta0
 }
 
-func main() {
+func run() {
 	fmt.Println("Linear Regression")
 	// user input for number of data points
 	var n int
