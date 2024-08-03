@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math/rand/v2"
 )
 
@@ -30,7 +29,7 @@ func createZeroesVec(size int) []float64 {
 	return vec
 }
 
-func LienarRegression(n int, x []float64, y []float64) (float64, float64) {
+func LinearRegression(n int, x []float64, y []float64) (float64, float64) {
 	var xMean float64 = mean(x)
 	var yMean float64 = mean(y)
 
@@ -48,22 +47,4 @@ func LienarRegression(n int, x []float64, y []float64) (float64, float64) {
 	var theta0 float64 = yMean - theta1*xMean
 
 	return theta1, theta0
-}
-
-func main() {
-	fmt.Println("Linear Regression")
-	// user input for number of data points
-	var n int
-	fmt.Println("Enter the number of data points: ")
-	fmt.Scanln(&n)
-	var x = createRandVec(n)
-	var y = createRandVec(n)
-	for i := 0; i < n; i++ {
-		y[i] = y[i] * y[i]
-	}
-	fmt.Println("x = ", x)
-	fmt.Println("y = ", y)
-	var slope, intercept = LienarRegression(n, x, y)
-	fmt.Println("Slope: ", slope)
-	fmt.Println("Intercept: ", intercept)
 }
